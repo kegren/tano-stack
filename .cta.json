@@ -1,0 +1,27 @@
+{
+  "initialized": true,
+  "mode": "file-router",
+  "projectName": "tano-stack",
+  "typescript": true,
+  "tailwind": true,
+  "git": true,
+  "addOnOptions": {
+    "drizzle": {
+      "database": "postgresql"
+    }
+  },
+  "packageManager": "bun",
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "compiler",
+    "db",
+    "drizzle",
+    "form",
+    "shadcn",
+    "table",
+    "start",
+    "tanstack-query",
+    "nitro"
+  ]
+}
