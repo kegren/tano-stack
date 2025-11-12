@@ -8,6 +8,7 @@ import { routeTree } from "./routeTree.gen";
 const STALE_TIME_MS = 1000 * 60 * 2; // 2 minutes
 
 export function getRouter() {
+  // Create the query client
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -17,6 +18,7 @@ export function getRouter() {
     },
   });
 
+  // Create the router
   const router = createRouter({
     routeTree,
     context: { queryClient },
@@ -28,6 +30,7 @@ export function getRouter() {
     defaultStructuralSharing: true,
   });
 
+  // Setup the router SSR query integration
   setupRouterSsrQueryIntegration({
     router,
     queryClient,
@@ -35,5 +38,6 @@ export function getRouter() {
     wrapQueryClient: true,
   });
 
+  // Return the router
   return router;
 }
