@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3000",
-    "build": "vite build",
+    "dev": "bun --bun vite dev --port 3000",
+    "build": "bun --bun vite build",
     "serve": "vite preview",
+    "start": "bun run .output/server/index.mjs",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
