@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Logo } from "@/components/logo";
 import {
   Card,
@@ -9,7 +9,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Field, FieldDescription } from "@/components/ui/field";
-import SignUpForm from "../components/sign-up-form";
+import SignUpForm from "@/routes/auth/-components/sign-up-form";
+
+export const Route = createFileRoute("/auth/sign-up")({
+  component: SignUp,
+});
 
 export function SignUp() {
   return (
@@ -33,7 +37,7 @@ export function SignUp() {
               <Field>
                 <FieldDescription className="text-center">
                   Already have an account?&nbsp;
-                  <Link className="underline" to="/sign-in">
+                  <Link className="underline" to="/auth/sign-in">
                     Sign In
                   </Link>
                 </FieldDescription>

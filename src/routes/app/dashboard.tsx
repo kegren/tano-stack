@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Loader2, LogOut, User } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -12,11 +12,18 @@ import {
 } from "@/components/ui/card";
 import { authClient } from "@/lib/auth/auth-client";
 
-export function Dashboard() {
+export const Route = createFileRoute("/app/dashboard")({
+  component: Dashboard,
+});
+
+function Dashboard() {
+  const navigate = useNavigate();
   const { session, isPending } = useAuth();
   const user = session?.user;
 
-  const navigate = useNavigate();
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
 
   const handleSignOut = async () => {
     await authClient.signOut({

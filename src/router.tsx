@@ -3,6 +3,7 @@ import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import { DefaultCatchBoundary } from "@/components/default-catch-boundary";
 import { DefaultNotFound } from "@/components/default-not-found";
+import { authClient } from "./lib/auth/auth-client";
 import { routeTree } from "./routeTree.gen";
 
 const STALE_TIME_MS = 1000 * 60 * 2; // 2 minutes
@@ -21,7 +22,7 @@ export function getRouter() {
   // Create the router
   const router = createRouter({
     routeTree,
-    context: { queryClient },
+    context: { queryClient, authClient },
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultCatchBoundary,

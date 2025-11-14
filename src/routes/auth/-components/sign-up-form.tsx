@@ -47,7 +47,7 @@ export default function SignUpForm() {
             queryClient.removeQueries({
               queryKey: ["user"],
             });
-            navigate({ to: "/verify-email" });
+            navigate({ to: "/auth/verify-email" });
             toast.success("Sign up successful");
           },
           onError: () => {
