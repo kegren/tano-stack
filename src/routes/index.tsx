@@ -26,10 +26,10 @@ function App() {
         {/* Action Buttons */}
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
           <Button asChild size="lg">
-            <Link to="/sign-in">Sign In</Link>
+            <Link to="/auth/sign-in">Sign In</Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link to="/sign-up">Sign Up</Link>
+            <Link to="/auth/sign-up">Sign Up</Link>
           </Button>
         </div>
 

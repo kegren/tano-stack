@@ -8,14 +8,12 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { AuthProvider } from "@/components/auth-provider";
 import { Toaster } from "@/components/ui/sonner";
-import type { authClient } from "@/lib/auth/auth-client";
 import { SITE_NAME } from "@/lib/constants";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 
 type MyRouterContext = {
   queryClient: QueryClient;
-  authClient: typeof authClient;
 };
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
