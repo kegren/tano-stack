@@ -39,7 +39,7 @@ export default function SignUpForm() {
       await authClient.signUp.email(
         {
           ...data,
-          callbackURL: "/email-verified",
+          callbackURL: "/auth/email-verified",
         },
         {
           onSuccess: () => {
