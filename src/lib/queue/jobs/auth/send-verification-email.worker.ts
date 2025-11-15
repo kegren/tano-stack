@@ -1,6 +1,7 @@
 import type { PgBoss } from "pg-boss";
 import { Resend } from "resend";
 import VerifyEmail from "@/components/emails/verify-email";
+import { RESEND_FROM_EMAIL } from "@/lib/constants";
 
 export const AUTH_JOBS = {
   SEND_VERIFICATION_EMAIL: "auth.sendVerificationEmail",
@@ -30,7 +31,7 @@ export async function registerAuthJobs(boss: PgBoss) {
       // TODO: log start/end as needed
 
       const { data, error } = await resend.emails.send({
-        from: "kenny@email.humpyfun.com",
+        from: RESEND_FROM_EMAIL,
         to: user.email,
         subject: "Verify your email",
         react: VerifyEmail({ name: user.name, verifyUrl: url }),
