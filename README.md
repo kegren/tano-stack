@@ -16,7 +16,7 @@ If you want to go from zero to “email-verified user in a dashboard” in minut
 - **Email**: Resend + React email templates
 - **UI & styling**: Tailwind CSS v4, shadcn/ui, Radix primitives, Lucide icons
 - **Forms & state**: TanStack React Form (with ergonomic hooks & field components)
-- **DX**: TanStack Devtools (Router + Query), Vitest, Testing Library, Biome
+- **DX**: TanStack Devtools (Router + Query), Vitest, Testing Library, Biome + Ultracite
 
 ---
 
@@ -133,4 +133,10 @@ If you spot something confusing, open an issue – if one person is confused, ot
 
 ### License
 
-This template is ideal as a **public starter** and is best shared under the **MIT License** – simple, permissive, and widely used for open-source templates.
+This template is released under the **MIT License**, a simple and permissive open-source license.
+
+- You can use it in commercial and open-source projects.
+- You can modify, fork, and redistribute it.
+- You must keep the copyright and license notice.
+
+Add a `LICENSE` file at the project root with the standard MIT text and your name (or organization) and year to make this explicit.
