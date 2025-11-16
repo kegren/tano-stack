@@ -34,8 +34,9 @@ Create a `.env` file in the project root and set:
 
 - **`DATABASE_URL`** – Postgres connection string  
   Example: `postgres://user:password@localhost:5432/tano_stack`
-- **`RESEND_API_KEY`** – Resend API key for sending emails
+- **`RESEND_API_KEY`** – Resend API key for sending emails (create/sign in to your [Resend](https://resend.com) account and generate an API key, then paste it here)
 - **`BETTER_AUTH_URL`** – Base URL for Better Auth (e.g. `http://localhost:3000`)
+- **`BETTER_AUTH_SECRET`** – Secret used by Better Auth to sign and verify tokens/sessions
 
 These power Drizzle, Better Auth, pg-boss, and the Resend email worker.
 
@@ -58,7 +59,17 @@ You can inspect your DB with:
 bun db:studio
 ```
 
-#### 4. Run the dev server
+#### 4. Generate the Better Auth secret
+
+Use the built-in script to generate a strong secret for Better Auth and copy it into your `.env`:
+
+```bash
+bun better-auth:secret
+```
+
+This will print a secret string – set it as `BETTER_AUTH_SECRET` in your `.env`.
+
+#### 5. Run the dev server
 
 ```bash
 bun dev
