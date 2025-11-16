@@ -86,6 +86,17 @@ The queue is initialized once in `src/server.ts` when the Nitro server starts.
 
 ---
 
+### Configuration constants
+
+Core app metadata and email settings are centralized in `src/lib/constants.ts`:
+
+- `SITE_NAME`, `SITE_URL`, and `SITE_DESCRIPTION` are used for things like document titles, metadata, and sharing.
+- `RESEND_FROM_EMAIL` controls the `"from"` address for transactional emails sent via Resend.
+
+Update these values to match your app’s branding and domain before going to production.
+
+---
+
 ### Routing, forms, and UI
 
 - **Routing**: File-based TanStack Router under `src/routes`, with the root layout in `src/routes/__root.tsx`.
