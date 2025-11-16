@@ -4,18 +4,9 @@
 import handler from "@tanstack/react-start/server-entry";
 import { initQueue } from "./lib/queue";
 
-// TODO: Import your queue initialization function once it's implemented.
-// Example:
-// import { initQueue } from "@/lib/queue";
-
 // Initialize the queue once at process start.
-// This should set up PgBoss, register workers, and start processing jobs.
-// Make sure `initQueue` is idempotent and safe to call during server startup/reloads.
-// void initQueue();
-
-console.log("Server entry point");
-
 initQueue().catch((error) => {
+  // @todo: use structured logging
   console.error("Error initializing queue", error);
   process.exit(1);
 });

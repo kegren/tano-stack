@@ -5,15 +5,15 @@
   "scripts": {
     "dev": "bun --bun vite dev --port 3000",
     "build": "bun --bun vite build",
-    "serve": "vite preview",
+    "serve": "bun --bun vite preview",
     "start": "bun run .output/server/index.mjs",
-    "test": "vitest run",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:pull": "drizzle-kit pull",
-    "db:studio": "drizzle-kit studio",
-    "better-auth:generate": "npx @better-auth/cli generate --config src/lib/auth/auth.ts --output src/db/schema/auth.ts"
+    "test": "bun --bun vitest run",
+    "db:generate": "bun --bun drizzle-kit generate",
+    "db:migrate": "bun --bun drizzle-kit migrate",
+    "db:push": "bun --bun drizzle-kit push",
+    "db:pull": "bun --bun drizzle-kit pull",
+    "db:studio": "bun --bun drizzle-kit studio",
+    "better-auth:generate": "bunx --bun @better-auth/cli generate --config src/lib/auth/auth.ts --output src/db/schema/auth.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.0.0",
