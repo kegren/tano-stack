@@ -5,15 +5,13 @@ import { DefaultCatchBoundary } from "@/components/default-catch-boundary";
 import { DefaultNotFound } from "@/components/default-not-found";
 import { routeTree } from "./routeTree.gen";
 
-const STALE_TIME_MS = 1000 * 60 * 2; // 2 minutes
-
 export function getRouter() {
   // Create the query client
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         refetchOnWindowFocus: false,
-        staleTime: STALE_TIME_MS,
+        staleTime: 30_000, // 30 seconds
       },
     },
   });
@@ -22,7 +20,7 @@ export function getRouter() {
   const router = createRouter({
     routeTree,
     context: { queryClient },
-    defaultPreload: "intent",
+    defaultPreload: "intent" as const,
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultCatchBoundary,
     defaultNotFoundComponent: DefaultNotFound,
