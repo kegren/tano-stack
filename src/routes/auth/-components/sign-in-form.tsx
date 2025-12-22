@@ -4,9 +4,8 @@ import { Lock, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { FieldGroup } from "@/components/ui/field";
+import { authClient } from "@/features/auth/auth-client";
 import { useAppForm } from "@/hooks/form";
-import { authClient } from "@/lib/auth/auth-client";
-import { authQueryOptions } from "@/lib/auth/queries";
 
 const signInSchema = z.object({
   email: z.email("Email must be a valid email address"),
@@ -36,15 +35,13 @@ export default function SignInForm() {
             console.log("sign in successful");
             // manually remove query data to clear the cache and refetch
             queryClient.removeQueries({
-              queryKey: authQueryOptions().queryKey,
+              queryKey: ["user"],
             });
-            navigate({ to: "/app/dashboard" });
+            navigate({ to: "/dashboard" });
             toast.success("Sign in successful");
           },
           onError: (ctx) => {
-            console.log("sign in failed", ctx);
             if (ctx.error.status === 403) {
-              console.log("email not verified");
               toast.error("Sign in failed", {
                 description: "Please verify your email",
               });
