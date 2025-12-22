@@ -9,18 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AppRouteRouteImport } from './routes/app/route'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthVerifyEmailRouteImport } from './routes/auth/verify-email'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 import { Route as AuthEmailVerifiedRouteImport } from './routes/auth/email-verified'
-import { Route as AppDashboardRouteImport } from './routes/app/dashboard'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 
-const AppRouteRoute = AppRouteRouteImport.update({
-  id: '/app',
-  path: '/app',
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -48,10 +47,10 @@ const AuthEmailVerifiedRoute = AuthEmailVerifiedRouteImport.update({
   path: '/auth/email-verified',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => AppRouteRoute,
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -61,8 +60,7 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
-  '/app/dashboard': typeof AppDashboardRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/email-verified': typeof AuthEmailVerifiedRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -71,8 +69,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
-  '/app/dashboard': typeof AppDashboardRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/email-verified': typeof AuthEmailVerifiedRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -82,8 +79,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
-  '/app/dashboard': typeof AppDashboardRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/auth/email-verified': typeof AuthEmailVerifiedRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -94,8 +91,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/app'
-    | '/app/dashboard'
+    | '/dashboard'
     | '/auth/email-verified'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -104,8 +100,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
-    | '/app/dashboard'
+    | '/dashboard'
     | '/auth/email-verified'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -114,8 +109,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/app'
-    | '/app/dashboard'
+    | '/_authenticated'
+    | '/_authenticated/dashboard'
     | '/auth/email-verified'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -125,7 +120,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRouteRoute: typeof AppRouteRouteWithChildren
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AuthEmailVerifiedRoute: typeof AuthEmailVerifiedRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
@@ -135,11 +130,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,12 +172,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthEmailVerifiedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/dashboard': {
-      id: '/app/dashboard'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
       path: '/dashboard'
-      fullPath: '/app/dashboard'
-      preLoaderRoute: typeof AppDashboardRouteImport
-      parentRoute: typeof AppRouteRoute
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -194,21 +189,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AppRouteRouteChildren {
-  AppDashboardRoute: typeof AppDashboardRoute
+interface AuthenticatedRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
-const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppDashboardRoute: AppDashboardRoute,
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
 
-const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
-  AppRouteRouteChildren,
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRouteRoute: AppRouteRouteWithChildren,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthEmailVerifiedRoute: AuthEmailVerifiedRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
