@@ -6,7 +6,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { AuthProvider } from "@/components/auth-provider";
+import type { User } from "better-auth";
 import { Toaster } from "@/components/ui/sonner";
 import { SITE_NAME } from "@/lib/constants";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 
 type MyRouterContext = {
   queryClient: QueryClient;
+  user?: User;
 };
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -48,7 +49,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        {children}
         <Toaster />
         <TanStackDevtools
           config={{

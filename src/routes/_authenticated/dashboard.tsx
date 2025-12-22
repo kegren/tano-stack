@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Loader2, LogOut, User } from "lucide-react";
-import { useAuth } from "@/components/auth-provider";
+import { LogOut, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,20 +9,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { authClient } from "@/lib/auth/auth-client";
+import { authClient } from "@/features/auth/auth-client";
 
-export const Route = createFileRoute("/app/dashboard")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
 });
 
 function Dashboard() {
+  // User is guaranteed by _authenticated route's beforeLoad
+  const { user } = Route.useRouteContext();
   const navigate = useNavigate();
-  const { session, isPending } = useAuth();
-  const user = session?.user;
-
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
 
   const handleSignOut = async () => {
     await authClient.signOut({
@@ -44,7 +39,7 @@ function Dashboard() {
         <div className="mb-8">
           <h1 className="font-bold text-3xl tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here's your account overview.
+            Welcome back {user.email}! Here's your account overview.
           </p>
         </div>
 
@@ -54,11 +49,7 @@ function Dashboard() {
             <CardHeader className="flex flex-row items-center space-y-0 pb-4">
               <Avatar className="h-12 w-12">
                 <AvatarFallback className="bg-primary text-primary-foreground">
-                  {isPending ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    getInitials(user?.email ?? "Guest")
-                  )}
+                  {getInitials(user.email)}
                 </AvatarFallback>
               </Avatar>
               <div className="ml-4">
@@ -71,11 +62,7 @@ function Dashboard() {
                 <User className="h-4 w-4 text-muted-foreground" />
                 <span className="font-medium text-sm">Email:</span>
                 <span className="text-muted-foreground text-sm">
-                  {isPending ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    user?.email
-                  )}
+                  {user.email}
                 </span>
               </div>
 
