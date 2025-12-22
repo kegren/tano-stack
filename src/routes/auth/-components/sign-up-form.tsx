@@ -4,8 +4,8 @@ import { Lock, Mail, User } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { FieldGroup } from "@/components/ui/field";
+import { authClient } from "@/features/auth/auth-client";
 import { useAppForm } from "@/hooks/form";
-import { authClient } from "@/lib/auth/auth-client";
 
 const signUpSchema = z
   .object({
