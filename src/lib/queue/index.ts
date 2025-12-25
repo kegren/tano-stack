@@ -1,17 +1,14 @@
-import { config } from "dotenv";
 import { PgBoss } from "pg-boss";
 import { registerAllJobs } from "./jobs";
 
-config();
-
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set");
-}
+type InitQueueOptions = {
+  databaseUrl: string;
+};
 
 let boss: PgBoss | null = null;
 
-async function createQueue() {
-  boss = new PgBoss(process.env.DATABASE_URL as string);
+async function createQueue(databaseUrl: string) {
+  boss = new PgBoss(databaseUrl);
 
   boss.on("error", (error) => {
     // Wire up to your error tracking system here
@@ -26,9 +23,9 @@ async function createQueue() {
   return boss;
 }
 
-export async function initQueue() {
+export async function initQueue(options: InitQueueOptions) {
   if (!boss) {
-    boss = await createQueue();
+    boss = await createQueue(options.databaseUrl);
   }
 
   return boss;

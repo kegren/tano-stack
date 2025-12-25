@@ -1,21 +1,19 @@
-import { getQueue } from "@/lib/queue";
-import { registerQueueJobs } from "@/lib/queue/jobs";
+import { initQueue } from "@/lib/queue";
+import { registerAllJobs } from "@/lib/queue/jobs";
+import "dotenv/config"
 
-export async function startQueueWorker() {
-  if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is not set");
-  }
+type StartQueueWorkerOptions = {
+  databaseUrl: string;
+};  
 
-  const boss = await getQueue({
-    databaseUrl: process.env.DATABASE_URL as string,
-  });
+export async function startQueueWorker(options: StartQueueWorkerOptions) {
+  const boss = await initQueue({ databaseUrl: options.databaseUrl });
 
-  await registerQueueJobs(boss);
-
+  await registerAllJobs(boss);
   console.log("[pg-boss] Queue worker started");
 }
 
-startQueueWorker().catch((error) => {
+startQueueWorker({ databaseUrl: process.env.DATABASE_URL as string }).catch((error) => {
   console.error("[pg-boss] Error starting queue worker", error);
   process.exit(1);
 });
