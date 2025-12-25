@@ -1,10 +1,6 @@
 import { PgBoss } from "pg-boss";
 import { registerAllJobs } from "./jobs";
 
-type InitQueueOptions = {
-  databaseUrl: string;
-};
-
 let boss: PgBoss | null = null;
 
 async function createQueue(databaseUrl: string) {
@@ -23,9 +19,13 @@ async function createQueue(databaseUrl: string) {
   return boss;
 }
 
-export async function initQueue(options: InitQueueOptions) {
+export async function initQueue() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is not set");
+  }
+
   if (!boss) {
-    boss = await createQueue(options.databaseUrl);
+    boss = await createQueue(process.env.DATABASE_URL as string);
   }
 
   return boss;
