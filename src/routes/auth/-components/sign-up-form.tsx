@@ -43,11 +43,10 @@ export default function SignUpForm() {
         },
         {
           onSuccess: () => {
-            // manually remove query data to clear the cache and refetch
-            queryClient.removeQueries({
-              queryKey: ["user"],
-            });
+            queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
+
             navigate({ to: "/auth/verify-email" });
+
             toast.success("Sign up successful");
           },
           onError: () => {

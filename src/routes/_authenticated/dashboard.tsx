@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LogOut, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -18,12 +19,14 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 function Dashboard() {
   // User is guaranteed by _authenticated route's beforeLoad
   const { user } = Route.useRouteContext();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
           navigate({ to: "/" });
         },
       },
