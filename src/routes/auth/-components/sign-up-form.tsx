@@ -6,14 +6,15 @@ import { z } from "zod";
 import { FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/features/auth/auth-client";
 import { useAppForm } from "@/hooks/form";
+import { AUTH_CONFIG } from "@/lib/constants";
 
 const signUpSchema = z
   .object({
     email: z.email("Email must be a valid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"), // 8 is a magic number, extract it to a constant
+    password: z.string().min(AUTH_CONFIG.MIN_PASSWORD_LENGTH, `Password must be at least ${AUTH_CONFIG.MIN_PASSWORD_LENGTH} characters`), 
     confirmPassword: z
       .string()
-      .min(8, "Confirm password must be at least 8 characters"), // 8 is a magic number, extract it to a constant
+      .min(AUTH_CONFIG.MIN_PASSWORD_LENGTH, `Confirm password must be at least ${AUTH_CONFIG.MIN_PASSWORD_LENGTH} characters`),
     name: z.string().min(2, "Name is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {

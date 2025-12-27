@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/field";
 import { InputGroup, InputGroupTextarea } from "@/components/ui/input-group";
 import { useFieldContext } from "@/hooks/form";
+import { AUTH_CONFIG } from "@/lib/constants";
 import { FieldHelp } from "./field-help";
 
 export default function TextareaField({
@@ -29,20 +30,20 @@ export default function TextareaField({
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
   const bioLength = field.state.value?.length || 0;
-  const maxLength = 500;
+  const maxLength = AUTH_CONFIG.MAX_TEXTAREA_LENGTH;
   const remaining = maxLength - bioLength;
   return (
     <Field data-invalid={isInvalid}>
       <div className="flex items-center gap-2">
         <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-        {fieldHelp && (
+        {fieldHelp ? (
           <FieldHelp
             benefit={fieldHelp.benefit}
             description={fieldHelp.description}
             icon={fieldHelp.icon}
             title={fieldHelp.title}
           />
-        )}
+        ) : null}
       </div>
       <InputGroup>
         <InputGroupTextarea
@@ -61,8 +62,8 @@ export default function TextareaField({
           {remaining} / {maxLength} characters remaining
         </span>
       </div>
-      {isInvalid && <FieldError errors={field.state.meta.errors} />}
-      {description && <FieldDescription>{description}</FieldDescription>}
+      {isInvalid ? <FieldError errors={field.state.meta.errors} /> : null}
+      {description ? <FieldDescription>{description}</FieldDescription> : null}
     </Field>
   );
 }
