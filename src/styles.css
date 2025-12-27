@@ -5,19 +5,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-body {
-  @apply m-0;
-  font-family:
-    "Geist Mono Variable", monospace;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family:
-    "Geist Mono Variable", monospace;
-}
-
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);
@@ -136,11 +123,16 @@ code {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply m-0 bg-background font-sans text-foreground antialiased;
   }
-  h1, h2, h3 {
-    @apply font-sans tracking-tighter;
-    letter-spacing: -0.02em;
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans tracking-tight;
+  }
+
+  code, pre, kbd {
+    @apply font-mono;
   }
 }
