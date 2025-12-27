@@ -1,23 +1,23 @@
 import type { ErrorRouteComponent } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const DefaultCatchBoundary: ErrorRouteComponent = ({ error }) => (
-  <div className="flex min-h-screen flex-col items-center justify-center p-4">
-    <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-      <h1 className="mb-4 font-bold text-2xl text-gray-900">
-        Something went wrong!
-      </h1>
-      <p className="mb-4 text-gray-600">
-        {error instanceof Error
-          ? error.message
-          : "An unexpected error occurred"}
-      </p>
-      <button
-        className="rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-        onClick={() => window.location.reload()}
-        type="button"
-      >
-        Reload Page
-      </button>
-    </div>
+  <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle className="text-destructive">
+          Something went wrong!
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <p className="text-muted-foreground">
+          {error instanceof Error
+            ? error.message
+            : "An unexpected error occurred"}
+        </p>
+        <Button onClick={() => window.location.reload()}>Reload Page</Button>
+      </CardContent>
+    </Card>
   </div>
 );
