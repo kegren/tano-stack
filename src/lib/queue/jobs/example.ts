@@ -5,11 +5,11 @@ export const EXAMPLE_JOBS = {
   EXAMPLE: "example",
 } as const;
 
-export type ExamplePayload = z.infer<typeof ExamplePayload>;
-
 export const ExamplePayload = z.object({
   name: z.string(),
 });
+
+export type ExamplePayload = z.infer<typeof ExamplePayload>;
 
 export async function registerExampleJobs(boss: PgBoss) {
   await boss.createQueue(EXAMPLE_JOBS.EXAMPLE);
