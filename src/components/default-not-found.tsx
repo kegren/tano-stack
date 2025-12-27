@@ -1,16 +1,19 @@
 import { Link, type NotFoundRouteComponent } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const DefaultNotFound: NotFoundRouteComponent = () => (
-  <div className="flex min-h-screen flex-col items-center justify-center p-4">
-    <div className="w-full max-w-md rounded-lg bg-white p-6 text-center shadow-lg">
-      <h1 className="mb-4 font-bold text-4xl text-gray-900">404</h1>
-      <p className="mb-6 text-gray-600">Page not found</p>
-      <Link
-        className="inline-block rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
-        to="/"
-      >
-        Go Home
-      </Link>
-    </div>
+  <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4">
+    <Card className="w-full max-w-md text-center">
+      <CardHeader>
+        <CardTitle className="text-4xl">404</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <p className="text-muted-foreground">Page not found</p>
+        <Button asChild>
+          <Link to="/">Go Home</Link>
+        </Button>
+      </CardContent>
+    </Card>
   </div>
 );

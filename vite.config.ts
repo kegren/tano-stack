@@ -7,13 +7,15 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const config = defineConfig({
   plugins: [
-    nitro({ preset: "bun" }),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
-    tailwindcss(),
     tanstackStart(),
+    nitro({
+      preset: "bun"
+    }),
+    tailwindcss(),
     viteReact({
       babel: {
         plugins: ["babel-plugin-react-compiler"],
