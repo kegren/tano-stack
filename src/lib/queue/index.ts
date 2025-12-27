@@ -1,5 +1,5 @@
 import { PgBoss } from "pg-boss";
-import { registerAllJobs } from "./jobs";
+import { registerJobs } from "./jobs/register";
 
 let boss: PgBoss | null = null;
 
@@ -13,7 +13,7 @@ async function createQueue(databaseUrl: string) {
 
   await boss.start();
 
-  await registerAllJobs(boss);
+  await registerJobs(boss);
 
   console.log("[pg-boss] Queue started");
   return boss;
