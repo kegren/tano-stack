@@ -32,12 +32,12 @@ export default function SignInForm() {
         },
         {
           onSuccess: () => {
-            console.log("sign in successful");
-            // manually remove query data to clear the cache and refetch
-            queryClient.removeQueries({
-              queryKey: ["user"],
+            queryClient.invalidateQueries({
+              queryKey: ["auth", "session"],
             });
+
             navigate({ to: "/dashboard" });
+            
             toast.success("Sign in successful");
           },
           onError: (ctx) => {
