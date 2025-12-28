@@ -1,19 +1,23 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { Toggle } from "@/components/ui/toggle";
 
-export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
+type ThemeToggleProps = {
+  absolute?: boolean;
+};
 
-  React.useEffect(() => {
+export function ThemeToggle({ absolute = true }: ThemeToggleProps) {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) {
     return (
-      <div className="absolute top-6 right-6">
+      <div className={absolute ? "absolute top-6 right-6" : ""}>
         <Toggle disabled size="sm" variant="outline">
           <Sun className="size-4" />
         </Toggle>
@@ -22,7 +26,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="absolute top-6 right-6">
+    <div className={absolute ? "absolute top-6 right-6" : ""}>
       <Toggle
         onPressedChange={() => setTheme(theme === "light" ? "dark" : "light")}
         pressed={theme === "dark"}

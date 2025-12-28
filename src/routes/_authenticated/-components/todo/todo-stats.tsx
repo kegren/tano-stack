@@ -14,11 +14,9 @@ export default function Stats({
 
   return (
     <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
-      <div className="mb-4 flex justify-between text-sm">
+      <div className="mb-4 flex justify-between space-x-2 text-sm">
         <div className="text-muted-foreground">
-          <span className="font-medium text-card-foreground">
-            {totalCount}
-          </span>{" "}
+          <span className="font-medium text-card-foreground">{totalCount}</span>{" "}
           total
         </div>
         <div className="text-muted-foreground">
@@ -34,8 +32,8 @@ export default function Stats({
           completed
         </div>
       </div>
-      <Progress value={completionPercentage} className="h-2" />
-      <div className="mt-2 text-xs text-muted-foreground">
+      <Progress className="h-2" value={completionPercentage} />
+      <div className="mt-2 text-muted-foreground text-xs">
         {completionPercentage.toFixed(0)}% complete
       </div>
     </div>

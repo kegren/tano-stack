@@ -1,100 +1,57 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeaders } from "@tanstack/react-start/server";
-import { eq } from "drizzle-orm";
-import { z } from "zod";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { todo } from "@/db/schema/todos";
-import { auth } from "@/features/auth/auth";
+import { authOrRedirectMiddleware } from "@/features/auth/auth-middleware";
+import { createTodoSchema, deleteTodoSchema, updateTodoSchema } from "./schema";
 
-export const getTodos = createServerFn({ method: "GET" }).handler(async () => {
-  const session = await auth.api.getSession({
-    headers: getRequestHeaders(),
+export const getTodos = createServerFn({ method: "GET" })
+  .middleware([authOrRedirectMiddleware])
+  .handler(async ({ context: { user } }) => {
+    const todos = await db
+      .select()
+      .from(todo)
+      .where(eq(todo.userId, user.id))
+      .orderBy(todo.createdAt);
+
+    return todos;
   });
 
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-
-  const todos = await db
-    .select()
-    .from(todo)
-    .where(eq(todo.userId, session.user.id))
-    .orderBy(todo.createdAt);
-
-  return todos;
-});
-
-const createTodoSchema = z.object({
-  title: z.string().min(1),
-  completed: z.boolean().optional(),
-});
-
 export const createTodo = createServerFn({ method: "POST" })
+  .middleware([authOrRedirectMiddleware])
   .inputValidator(createTodoSchema)
-  .handler(async ({ data }) => {
-    const session = await auth.api.getSession({
-      headers: getRequestHeaders(),
-    });
-
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
-
+  .handler(async ({ data, context: { user } }) => {
     const [newTodo] = await db
       .insert(todo)
       .values({
-        id: crypto.randomUUID(),
+        id: data.id,
         title: data.title,
         completed: data.completed ?? false,
-        userId: session.user.id,
+        userId: user.id,
       })
       .returning();
 
     return newTodo;
   });
 
-const updateTodoSchema = z.object({
-  id: z.string(),
-  updates: z.object({
-    title: z.string().optional(),
-    completed: z.boolean().optional(),
-  }),
-});
-
 export const updateTodo = createServerFn({ method: "POST" })
   .inputValidator(updateTodoSchema)
-  .handler(async ({ data }) => {
-    const session = await auth.api.getSession({
-      headers: getRequestHeaders(),
-    });
-
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
-
+  .middleware([authOrRedirectMiddleware])
+  .handler(async ({ data, context: { user } }) => {
     const [updatedTodo] = await db
       .update(todo)
       .set(data.updates)
-      .where(eq(todo.id, data.id))
+      .where(and(eq(todo.id, data.id), eq(todo.userId, user.id)))
       .returning();
 
     return updatedTodo;
   });
 
-const deleteTodoSchema = z.object({
-  id: z.string(),
-});
-
 export const deleteTodo = createServerFn({ method: "POST" })
   .inputValidator(deleteTodoSchema)
-  .handler(async ({ data }) => {
-    const session = await auth.api.getSession({
-      headers: getRequestHeaders(),
-    });
-
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
-
-    await db.delete(todo).where(eq(todo.id, data.id));
+  .middleware([authOrRedirectMiddleware])
+  .handler(async ({ data, context: { user } }) => {
+    await db
+      .delete(todo)
+      .where(and(eq(todo.id, data.id), eq(todo.userId, user.id)));
   });
