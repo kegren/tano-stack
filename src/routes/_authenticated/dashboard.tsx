@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, ListTodo } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,28 +17,26 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
-  // User is guaranteed by _authenticated route's beforeLoad
   const { user } = Route.useRouteContext();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
-          navigate({ to: "/" });
-        },
+  await authClient.signOut({
+    fetchOptions: {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
+        navigate({ to: "/" });
       },
-    });
+    },
+  });
   };
 
-  // Get user initials for avatar
   const getInitials = (email: string) => email.substring(0, 2).toUpperCase();
 
   return (
     <div className="min-h-screen bg-background p-6">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-6xl">
         <div className="mb-8">
           <h1 className="font-bold text-3xl tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
@@ -46,7 +44,7 @@ function Dashboard() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-3">
           {/* User Profile Card */}
           <Card>
             <CardHeader className="flex flex-row items-center space-y-0 pb-4">
@@ -82,22 +80,30 @@ function Dashboard() {
             </CardContent>
           </Card>
 
-          {/* Quick Actions Card */}
+          {/* Todos Card */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-xl">Quick Actions</CardTitle>
-              <CardDescription>Common tasks and shortcuts</CardDescription>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <ListTodo className="h-5 w-5" />
+                Todos
+              </CardTitle>
+              <CardDescription>
+                Manage your tasks and stay organized
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground text-sm">
-                This is a showcase dashboard. You can customize it with your
-                app's specific features and functionality.
+                Create, edit, and track your todos with our simple and efficient todo
+                manager.
               </p>
 
               <div className="pt-4 text-center">
-                <p className="text-muted-foreground text-xs">
-                  Built with tano-stack
-                </p>
+                <Button
+                  className="w-full"
+                  onClick={() => navigate({ to: "/todos" })}
+                >
+                  Go to Todos
+                </Button>
               </div>
             </CardContent>
           </Card>
