@@ -1,26 +1,26 @@
 import { createCollection } from "@tanstack/db";
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
-import type { QueryClient } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import type { Todo } from "@/db/schema/todos";
 import { createTodo, deleteTodo, getTodos, updateTodo } from "./server";
 
-export function createTodosCollection(queryClient: QueryClient) {
+const queryClient = new QueryClient();
+
+export function createTodosCollection(userId: string) {
   return createCollection(
     queryCollectionOptions({
       id: "todos",
-      queryKey: ["todos"],
+      queryKey: ["todos", userId],
       queryFn: getTodos,
       queryClient,
       getKey: (item: Todo) => item.id,
       onInsert: async ({ transaction }) => {
         const { modified: newTodo } = transaction.mutations[0];
-        await createTodo({ data: { title: newTodo.title } });
+        await createTodo({ data: { id: newTodo.id, title: newTodo.title } });
       },
       onUpdate: async ({ transaction }) => {
         const { original, modified } = transaction.mutations[0];
-        await updateTodo({
-          data: { id: original.id, updates: modified },
-        });
+        await updateTodo({ data: { id: original.id, updates: modified } });
       },
       onDelete: async ({ transaction }) => {
         const { original } = transaction.mutations[0];

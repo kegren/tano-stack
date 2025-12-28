@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import type { Todo } from "@/db/schema/todos";
 import type { createTodosCollection } from "@/features/todos/collection";
+import { cn } from "@/lib/utils";
 
 export default function TodoItem({
   todosCollection,
@@ -77,40 +78,37 @@ export default function TodoItem({
 
   return (
     <div
-      className={`
-        flex items-center gap-3 rounded-lg border bg-card p-4 text-card-foreground shadow-sm transition-colors hover:bg-accent
-        ${todo.completed ? "opacity-50" : ""}
-      `}
+      className={cn(
+        "flex items-center gap-3 rounded-lg border bg-card p-4 text-card-foreground shadow-sm transition-colors hover:bg-accent",
+        todo.completed ? "opacity-50" : ""
+      )}
     >
       <Checkbox
-        checked={todo.completed}
-        onCheckedChange={handleToggle}
-        disabled={false}
         aria-label={`Mark "${todo.title}" as ${
           todo.completed ? "incomplete" : "complete"
         }`}
+        checked={todo.completed}
+        disabled={false}
+        onCheckedChange={handleToggle}
       />
 
       <div className="flex-1">
         {isEditing ? (
           <Input
+            autoFocus
+            className="h-8"
+            disabled={false}
+            onBlur={handleSave}
+            onChange={(e) => setEditTitle(e.target.value)}
+            onKeyDown={handleKeyDown}
             type="text"
             value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-            onBlur={handleSave}
-            onKeyDown={handleKeyDown}
-            className="h-8"
-            autoFocus
-            disabled={false}
           />
         ) : (
           <p
-            onDoubleClick={handleEdit}
-            className={`
-              cursor-pointer text-sm transition-colors
-              ${todo.completed ? "line-through text-muted-foreground" : ""
+            className={`text-sm transition-colors ${
+              todo.completed ? "text-muted-foreground line-through" : ""
             }`}
-            title="Double-click to edit"
           >
             {todo.title}
           </p>
@@ -121,56 +119,48 @@ export default function TodoItem({
         {isEditing ? (
           <>
             <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCancelEdit}
               disabled={false}
+              onClick={handleCancelEdit}
+              size="sm"
+              variant="outline"
             >
               Cancel
             </Button>
-            <Button
-              size="sm"
-              onClick={handleSave}
-              disabled={false}
-            >
+            <Button disabled={false} onClick={handleSave} size="sm">
               Save
             </Button>
           </>
         ) : (
           <Button
-            variant="outline"
-            size="sm"
-            onClick={handleEdit}
             disabled={false}
+            onClick={handleEdit}
+            size="sm"
+            variant="outline"
           >
             Edit
           </Button>
         )}
         <Button
-          variant="destructive"
-          size="icon"
           onClick={() => setDeleteDialogOpen(true)}
+          size="icon"
+          variant="destructive"
         >
           <Trash2 className="h-4 w-4" />
         </Button>
       </div>
 
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialog onOpenChange={setDeleteDialogOpen} open={deleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete todo?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the todo
-              "{todo.title}".
+              This action cannot be undone. This will permanently delete the
+              todo "{todo.title}".
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-            >
-              Delete
-            </AlertDialogAction>
+            <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

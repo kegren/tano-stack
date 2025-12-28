@@ -3,12 +3,14 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { createTodosCollection } from "@/features/todos/collection";
+import { Route } from "@/routes/_authenticated/todos";
 
 export default function TodoForm({
   todosCollection,
 }: {
   todosCollection: ReturnType<typeof createTodosCollection>;
 }) {
+  const { user } = Route.useRouteContext();
   const [title, setTitle] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -23,7 +25,7 @@ export default function TodoForm({
       id: crypto.randomUUID(),
       title: title.trim(),
       completed: false,
-      userId: "",
+      userId: user.id,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
