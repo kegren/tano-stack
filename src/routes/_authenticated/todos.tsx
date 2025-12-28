@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/todos")({
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData({
       queryKey: ["todos"],
-      queryFn: () => getTodos,
+      queryFn: () => getTodos(),
     });
   },
   ssr: false,
