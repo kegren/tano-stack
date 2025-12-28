@@ -16,6 +16,7 @@ import { Route as AuthVerifyEmailRouteImport } from './routes/auth/verify-email'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 import { Route as AuthEmailVerifiedRouteImport } from './routes/auth/email-verified'
+import { Route as AuthenticatedTodosRouteImport } from './routes/_authenticated/todos'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as ApiAuthSplatRouteImport } from './routes/api.auth.$'
 
@@ -53,6 +54,11 @@ const AuthEmailVerifiedRoute = AuthEmailVerifiedRouteImport.update({
   path: '/auth/email-verified',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedTodosRoute = AuthenticatedTodosRouteImport.update({
+  id: '/todos',
+  path: '/todos',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/todos': typeof AuthenticatedTodosRoute
   '/auth/email-verified': typeof AuthEmailVerifiedRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/todos': typeof AuthenticatedTodosRoute
   '/auth/email-verified': typeof AuthEmailVerifiedRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -90,6 +98,7 @@ export interface FileRoutesById {
   '/$': typeof SplatRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/todos': typeof AuthenticatedTodosRoute
   '/auth/email-verified': typeof AuthEmailVerifiedRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/dashboard'
+    | '/todos'
     | '/auth/email-verified'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/dashboard'
+    | '/todos'
     | '/auth/email-verified'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/$'
     | '/_authenticated'
     | '/_authenticated/dashboard'
+    | '/_authenticated/todos'
     | '/auth/email-verified'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -192,6 +204,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthEmailVerifiedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/todos': {
+      id: '/_authenticated/todos'
+      path: '/todos'
+      fullPath: '/todos'
+      preLoaderRoute: typeof AuthenticatedTodosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -211,10 +230,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedTodosRoute: typeof AuthenticatedTodosRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedTodosRoute: AuthenticatedTodosRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
