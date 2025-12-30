@@ -2,7 +2,7 @@ import z from "zod";
 
 export const createTodoSchema = z.object({
   id: z.string(),
-  title: z.string().min(1),
+  title: z.string().trim().min(1).max(200),
   completed: z.boolean().optional(),
 });
 
