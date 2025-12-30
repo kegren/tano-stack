@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { createTodosCollection } from "@/features/todos/collection";
+import type { createTodosCollection } from "@/features/todos/api";
 import { Route } from "@/routes/_authenticated/todos";
 
 export default function TodoForm({

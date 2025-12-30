@@ -1,4 +1,5 @@
 import { eq, useLiveQuery } from "@tanstack/react-db";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
@@ -8,26 +9,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createTodosCollection } from "@/features/todos/collection";
-import { getTodos } from "@/features/todos/server";
-import TodoForm from "./-components/todo/todo-form";
-import TodoItem from "./-components/todo/todo-item";
-import Stats from "./-components/todo/todo-stats";
+import { createTodosCollection, prefetchTodos } from "@/features/todos/api";
+import TodoForm from "@/features/todos/ui/todo-form";
+import TodoItem from "@/features/todos/ui/todo-item";
+import Stats from "@/features/todos/ui/todo-stats";
 
 export const Route = createFileRoute("/_authenticated/todos")({
   component: TodosPage,
   loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData({
-      queryKey: ["todos"],
-      queryFn: () => getTodos(),
-    });
+    await prefetchTodos(context.queryClient, context.user.id);
+    // await context.queryClient.ensureQueryData({
+    //   queryKey: ["todos", context.user.id],
+    //   queryFn: () => getTodos(),
+    // });
   },
   ssr: false,
 });
 
 function TodosPage() {
   const { user } = Route.useRouteContext();
-  const todosCollection = createTodosCollection(user.id);
+  const queryClient = useQueryClient();
+  const todosCollection = createTodosCollection(queryClient, user.id);
   const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
 
   const { data: todos } = useLiveQuery(

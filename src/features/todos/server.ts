@@ -1,8 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { and, eq } from "drizzle-orm";
-import { db } from "@/db";
 import { todo } from "@/db/schema/todos";
-import { authOrRedirectMiddleware } from "@/features/auth/auth-middleware";
+import { db } from "@/lib/server/db";
+import { authOrRedirectMiddleware } from "@/lib/server/middleware";
 import { createTodoSchema, deleteTodoSchema, updateTodoSchema } from "./schema";
 
 export const getTodos = createServerFn({ method: "GET" })
