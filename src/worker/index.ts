@@ -1,5 +1,4 @@
-import { initQueue } from "@/lib/queue";
-import "dotenv/config";
+import { initQueue } from "@/lib/server/queue";
 
 export async function startQueueWorker() {
   await initQueue();
