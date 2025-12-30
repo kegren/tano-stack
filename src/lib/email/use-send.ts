@@ -1,3 +1,4 @@
 import { UseSend } from "usesend-js";
+import { env } from "@/lib/server/env";
 
-export const useSend = new UseSend(process.env.USESEND_API_KEY as string);
+export const useSend = new UseSend(env.USESEND_API_KEY);
