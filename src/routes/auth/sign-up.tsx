@@ -9,7 +9,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Field, FieldDescription } from "@/components/ui/field";
-import SignUpForm from "@/routes/auth/-components/sign-up-form";
+import SignUpForm from "@/features/auth/ui/sign-up-form";
+import SocialAuthButtons from "@/features/auth/ui/social-auth-buttons";
 
 export const Route = createFileRoute("/auth/sign-up")({
   component: SignUp,
@@ -31,6 +32,7 @@ export function SignUp() {
               </CardDescription>
             </CardHeader>
             <CardContent>
+              {/* <SocialAuthButtons /> */}
               <SignUpForm />
             </CardContent>
             <CardFooter className="flex justify-center text-center text-gray-600">
@@ -44,11 +46,6 @@ export function SignUp() {
               </Field>
             </CardFooter>
           </Card>
-          <FieldDescription className="px-6 text-center">
-            By clicking sign up, you agree to our{" "}
-            <a href="https://www.google.com">Terms of Service</a> and{" "}
-            <a href="https://www.google.com">Privacy Policy</a>.
-          </FieldDescription>
         </div>
       </div>
     </div>

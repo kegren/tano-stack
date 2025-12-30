@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Field, FieldDescription } from "@/components/ui/field";
-import SignInForm from "@/routes/auth/-components/sign-in-form";
+import SignInForm from "@/features/auth/ui/sign-in-form";
 
 export const Route = createFileRoute("/auth/sign-in")({
   component: SignIn,
@@ -31,6 +31,7 @@ export function SignIn() {
               </CardDescription>
             </CardHeader>
             <CardContent>
+              {/* <SocialAuthButtons /> */}
               <SignInForm />
             </CardContent>
             <CardFooter className="flex justify-center text-center text-gray-600">
@@ -44,11 +45,6 @@ export function SignIn() {
               </Field>
             </CardFooter>
           </Card>
-          <FieldDescription className="px-6 text-center">
-            By clicking sign in, you agree to our{" "}
-            <a href="https://www.google.com">Terms of Service</a> and{" "}
-            <a href="https://www.google.com">Privacy Policy</a>.
-          </FieldDescription>
         </div>
       </div>
     </div>
