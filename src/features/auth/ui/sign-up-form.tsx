@@ -1,58 +1,56 @@
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Lock, Mail, User } from "lucide-react";
+import React, { useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
 import { FieldGroup } from "@/components/ui/field";
-import { authClient } from "@/features/auth/auth-client";
+import {
+  type SignUpSchema,
+  signUpDefaultValues,
+  signUpSchema,
+} from "@/features/auth/schema";
 import { useAppForm } from "@/hooks/form";
-import { AUTH_CONFIG } from "@/lib/constants";
-
-const signUpSchema = z
-  .object({
-    email: z.email("Email must be a valid email address"),
-    password: z.string().min(AUTH_CONFIG.MIN_PASSWORD_LENGTH, `Password must be at least ${AUTH_CONFIG.MIN_PASSWORD_LENGTH} characters`), 
-    confirmPassword: z
-      .string()
-      .min(AUTH_CONFIG.MIN_PASSWORD_LENGTH, `Confirm password must be at least ${AUTH_CONFIG.MIN_PASSWORD_LENGTH} characters`),
-    name: z.string().min(2, "Name is required"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-type SignUpSchema = z.infer<typeof signUpSchema>;
-
-const defaultValues: z.input<typeof signUpSchema.shape> = {
-  email: "",
-  password: "",
-  name: "",
-  confirmPassword: "",
-};
+import { authClient } from "@/lib/client/auth-client";
+import { env } from "@/lib/client/env";
 
 export default function SignUpForm() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const turnstileRef = React.useRef<TurnstileInstance | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileSiteKey = env.VITE_TURNSTILE_SITE_KEY;
+
+  const resetTurnstile = () => {
+    setTurnstileToken(null);
+    turnstileRef.current?.reset();
+  };
 
   const { mutate: signUpMutate, isPending } = useMutation({
     mutationFn: async (data: SignUpSchema) => {
+      if (!turnstileToken) {
+        toast.error("Performing security check. Please wait...");
+        return;
+      }
+
       await authClient.signUp.email(
         {
           ...data,
-          callbackURL: "/auth/email-verified",
         },
         {
+          headers: { "x-turnstile-token": turnstileToken },
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
 
-            navigate({ to: "/auth/verify-email" });
+            resetTurnstile();
+            navigate({ to: "/dashboard" });
 
             toast.success("Sign up successful");
           },
-          onError: () => {
+          onError: (error) => {
+            resetTurnstile();
             toast.error("Sign up failed", {
-              description: "Please try again",
+              description: error.error.message,
             });
           },
         }
@@ -61,7 +59,7 @@ export default function SignUpForm() {
   });
 
   const form = useAppForm({
-    defaultValues,
+    defaultValues: signUpDefaultValues,
     validators: {
       onSubmit: signUpSchema,
     },
@@ -108,12 +106,28 @@ export default function SignUpForm() {
         {/* </Field> */}
         <form.AppForm>
           <form.SubscribeButton
-            isLoading={isPending}
+            isLoading={isPending || turnstileToken === null}
             label="Create Account"
-            loadingLabel="Creating account..."
+            loadingLabel={
+              turnstileToken === null
+                ? "Verifying security..."
+                : "Creating account..."
+            }
           />
         </form.AppForm>
       </FieldGroup>
+
+      {turnstileSiteKey ? (
+        <div className="mt-4 flex justify-center">
+          <Turnstile
+            onError={resetTurnstile}
+            onExpire={resetTurnstile}
+            onSuccess={setTurnstileToken}
+            ref={turnstileRef}
+            siteKey={turnstileSiteKey}
+          />
+        </div>
+      ) : null}
     </form>
   );
 }

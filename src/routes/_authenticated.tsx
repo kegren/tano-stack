@@ -3,7 +3,6 @@ import {
   createFileRoute,
   Link,
   Outlet,
-  redirect,
   useLocation,
   useNavigate,
 } from "@tanstack/react-router";
@@ -25,26 +24,15 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/features/auth/auth-client";
-import { authSessionQueryOptions } from "@/features/auth/queries";
+import { ensureAuthReturnUser } from "@/features/auth/api";
+import { authClient } from "@/lib/client/auth-client";
 
 export const Route = createFileRoute("/_authenticated")({
   component: RouteComponent,
-  beforeLoad: async ({ context, location }) => {
-    const session = await context.queryClient.ensureQueryData(
-      authSessionQueryOptions()
-    );
+  beforeLoad: async ({ context }) => {
+    const user = await ensureAuthReturnUser(context.queryClient);
 
-    if (!session) {
-      throw redirect({
-        to: "/auth/sign-in",
-        search: {
-          redirect: location.href,
-        },
-      });
-    }
-
-    return { user: session.user };
+    return { user };
   },
 });
 
