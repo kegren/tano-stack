@@ -39,3 +39,8 @@ jobs:
       # Only runs if the code is clean and type-safe.
       - name: Test
         run: bun test
+
+      # 4. Build (Final verification)
+      # This ensures your project can actually be deployed.
+      - name: Build
+        run: bun run build
