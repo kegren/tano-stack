@@ -9,19 +9,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createTodosCollection, prefetchTodos } from "@/features/todos/api";
-import TodoForm from "@/features/todos/ui/todo-form";
-import TodoItem from "@/features/todos/ui/todo-item";
-import Stats from "@/features/todos/ui/todo-stats";
+import { createTodosCollection } from "@/features/todos/api/todo-collection";
+import { prefetchTodos } from "@/features/todos/api/todo-queries";
+import TodoForm from "@/features/todos/components/todo-form";
+import TodoItem from "@/features/todos/components/todo-item";
+import Stats from "@/features/todos/components/todo-stats";
 
 export const Route = createFileRoute("/_authenticated/todos")({
   component: TodosPage,
   loader: async ({ context }) => {
     await prefetchTodos(context.queryClient, context.user.id);
-    // await context.queryClient.ensureQueryData({
-    //   queryKey: ["todos", context.user.id],
-    //   queryFn: () => getTodos(),
-    // });
   },
   ssr: false,
 });

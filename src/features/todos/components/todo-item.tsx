@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import type { Todo } from "@/db/schema/todos";
-import type { createTodosCollection } from "@/features/todos/api";
+import type { createTodosCollection } from "@/features/todos/api/todo-collection";
 import { cn } from "@/lib/utils";
 
 export default function TodoItem({

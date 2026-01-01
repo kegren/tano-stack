@@ -5,11 +5,12 @@ import { Lock, Mail, User } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { FieldGroup } from "@/components/ui/field";
+import { authKeys } from "@/features/auth/api/auth-queries";
 import {
   type SignUpSchema,
   signUpDefaultValues,
   signUpSchema,
-} from "@/features/auth/schema";
+} from "@/features/auth/types/auth-types";
 import { useAppForm } from "@/hooks/form";
 import { authClient } from "@/lib/client/auth-client";
 import { env } from "@/lib/client/env";
@@ -40,7 +41,7 @@ export default function SignUpForm() {
         {
           headers: { "x-turnstile-token": turnstileToken },
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
+            queryClient.invalidateQueries({ queryKey: authKeys.session() });
 
             resetTurnstile();
             navigate({ to: "/dashboard" });

@@ -7,11 +7,14 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import type { User } from "better-auth";
+import { DefaultCatchBoundary } from "@/components/default-catch-boundary";
+import { DefaultNotFound } from "@/components/default-not-found";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import TanStackQueryDevtools from "@/integrations/tanstack-query/devtools";
+import { env } from "@/lib/client/env";
 import { SITE_NAME } from "@/lib/constants";
-import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import appCss from "../styles.css?url";
+import appCss from "@/styles.css?url";
 
 type MyRouterContext = {
   queryClient: QueryClient;
@@ -41,8 +44,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   }),
 
   shellComponent: RootDocument,
-  // errorComponent: DefaultCatchBoundary,
-  notFoundComponent: () => <div>Not Found!</div>,
+  errorComponent: DefaultCatchBoundary,
+  notFoundComponent: DefaultNotFound,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -60,18 +63,20 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         >
           {children}
           <Toaster />
-          <TanStackDevtools
-            config={{
-              position: "bottom-right",
-            }}
-            plugins={[
-              {
-                name: "Tanstack Router",
-                render: <TanStackRouterDevtoolsPanel />,
-              },
-              TanStackQueryDevtools,
-            ]}
-          />
+          {env.VITE_NODE_ENV === "development" ? (
+            <TanStackDevtools
+              config={{
+                position: "bottom-right",
+              }}
+              plugins={[
+                {
+                  name: "Tanstack Router",
+                  render: <TanStackRouterDevtoolsPanel />,
+                },
+                TanStackQueryDevtools,
+              ]}
+            />
+          ) : null}
         </ThemeProvider>
         <Scripts />
       </body>

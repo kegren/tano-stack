@@ -24,7 +24,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { ensureAuthReturnUser } from "@/features/auth/api";
+import {
+  authKeys,
+  ensureAuthReturnUser,
+} from "@/features/auth/api/auth-queries";
 import { authClient } from "@/lib/client/auth-client";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -46,7 +49,7 @@ function RouteComponent() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
+          queryClient.invalidateQueries({ queryKey: authKeys.session() });
           navigate({ to: "/" });
         },
       },
