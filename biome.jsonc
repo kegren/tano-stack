@@ -1,16 +1,29 @@
 {
-	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-	"extends": ["ultracite/core", "ultracite/react"],
-	"linter": {
-		"rules": {
-			"style": {
-				"useConsistentTypeDefinitions": {
-					"options": {
-						"style": "type"
-					},
-					"level": "error"
-				}
-			}
-		}
-	}
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "ultracite/core",
+    "ultracite/react",
+    "ultracite/biome/core"
+  ],
+  "linter": {
+    "rules": {
+      "style": {
+        "useConsistentTypeDefinitions": {
+          "options": {
+            "style": "type"
+          },
+          "level": "error"
+        }
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "src/**",
+      "!src/components/ui",
+      "!src/routes",
+      "!src/routeTree.gen.ts",
+      "!drizzle/*"
+    ]
+  }
 }

@@ -5,8 +5,14 @@ on:
     branches: ["main"]
   pull_request:
 
+# Cancel previous runs if a new commit is pushed to the same PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
+  validate:
+    name: Validate & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,16 +21,21 @@ jobs:
         with:
           bun-version: "latest"
 
-      - name: Install
+      - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Lint (Biome)
+      # 1. Linting (Ultracite)
+      # This runs "ultracite check", respecting your biome.jsonc ignores.
+      # It fails fast if there are style or logic errors.
+      - name: Lint (Ultracite)
         run: bun lint
 
+      # 2. Type Checking
+      # Essential because Ultracite (Biome) does not check Typescript types, only syntax.
       - name: Typecheck
         run: bun typecheck
 
+      # 3. Tests
+      # Only runs if the code is clean and type-safe.
       - name: Test
         run: bun test
-
-
