@@ -1,7 +1,7 @@
 import { redirect } from "@tanstack/react-router";
 import { createMiddleware } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
-import { auth } from "@/features/auth/auth";
+import { auth } from "@/lib/server/auth";
 
 export const authOrRedirectMiddleware = createMiddleware().server(
   async ({ next }) => {
@@ -19,3 +19,17 @@ export const authOrRedirectMiddleware = createMiddleware().server(
     return next({ context: { user: session.user } });
   }
 );
+
+export function requireRoleMiddleware(role: string) {
+  return createMiddleware()
+    .middleware([authOrRedirectMiddleware])
+    .server(({ next, context }) => {
+      const user = context.user;
+
+      if (user.role !== role) {
+        throw redirect({ to: "/dashboard", replace: true });
+      }
+
+      return next({ context });
+    });
+}

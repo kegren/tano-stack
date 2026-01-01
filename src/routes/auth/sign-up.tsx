@@ -9,8 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Field, FieldDescription } from "@/components/ui/field";
-import SignUpForm from "@/features/auth/ui/sign-up-form";
-import SocialAuthButtons from "@/features/auth/ui/social-auth-buttons";
+import SignUpForm from "@/features/auth/components/sign-up-form";
 
 export const Route = createFileRoute("/auth/sign-up")({
   component: SignUp,

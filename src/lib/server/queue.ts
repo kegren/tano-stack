@@ -1,5 +1,5 @@
 import { PgBoss } from "pg-boss";
-import { registerJobs } from "./jobs/register";
+import { registerJobs } from "@/lib/server/jobs/register";
 
 let boss: PgBoss | null = null;
 

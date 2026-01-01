@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Field, FieldDescription } from "@/components/ui/field";
-import SignInForm from "@/features/auth/ui/sign-in-form";
+import SignInForm from "@/features/auth/components/sign-in-form";
 
 export const Route = createFileRoute("/auth/sign-in")({
   component: SignIn,
