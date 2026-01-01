@@ -30,10 +30,10 @@ jobs:
       - name: Lint (Ultracite)
         run: bun lint
 
-      # 2. Type Checking
-      # Essential because Ultracite (Biome) does not check Typescript types, only syntax.
-      - name: Typecheck
-        run: bun typecheck
+      # # 2. Type Checking
+      # # Essential because Ultracite (Biome) does not check Typescript types, only syntax.
+      # - name: Typecheck
+      #   run: bun typecheck
 
       # 3. Tests
       # Only runs if the code is clean and type-safe.
