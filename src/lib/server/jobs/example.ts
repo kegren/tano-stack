@@ -22,7 +22,7 @@ export async function registerExampleJobs(boss: PgBoss) {
     const { name } = job.data;
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+
     return { message: `Example job completed for ${name}` };
   });
 }

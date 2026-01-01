@@ -79,11 +79,14 @@ export default function VerifyEmail({ name, verifyUrl }: VerifyEmailProps) {
                   {SITE_URL}
                 </Text>
                 <Text className="m-0 text-[12px] text-gray-500">
-                  <a className="text-gray-500 no-underline" href="#">
+                  <a className="text-gray-500 no-underline" href="/">
                     Unsubscribe
                   </a>{" "}
                   |
-                  <a className="ml-[8px] text-gray-500 no-underline" href="#">
+                  <a
+                    className="ml-[8px] text-gray-500 no-underline"
+                    href="/privacy-policy"
+                  >
                     Privacy Policy
                   </a>
                 </Text>
