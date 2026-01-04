@@ -70,8 +70,7 @@ export default function SignUpForm() {
         return;
       }
 
-      const parsedValue = signUpSchema.safeParse(value);
-      const email = parsedValue.data?.email;
+      const email = (value as SignUpSchema).email;
 
       if (email) {
         const { exists } = await checkEmailExists({ data: { email } });
