@@ -5,6 +5,7 @@ import { Lock, Mail, User } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { FieldGroup } from "@/components/ui/field";
+import { checkEmailExists } from "@/features/auth/api/auth-actions";
 import { authKeys } from "@/features/auth/api/auth-queries";
 import {
   type SignUpSchema,
@@ -64,9 +65,27 @@ export default function SignUpForm() {
     validators: {
       onSubmit: signUpSchema,
     },
-    onSubmit: ({ value }) => {
+    onSubmit: async ({ value }) => {
       if (isPending) {
         return;
+      }
+
+      const parsedValue = signUpSchema.safeParse(value);
+      const email = parsedValue.data?.email;
+
+      if (email) {
+        const { exists } = await checkEmailExists({ data: { email } });
+
+        if (exists) {
+          form.setFieldMeta("email", (meta) => ({
+            ...meta,
+            errorMap: {
+              ...meta.errorMap,
+              onSubmit: "This email is already registered",
+            },
+          }));
+          return;
+        }
       }
 
       signUpMutate(value as SignUpSchema);
