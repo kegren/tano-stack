@@ -1,164 +1,151 @@
-## tano-stack
+# 🏝️ tano-stack
 
-🏝️ An opinionated **TanStack Start** starter that puts the **TanStack** ecosystem – Router, Query, Form, Devtools – front and center, running on **Bun**, **React 19.2**, and **React Compiler 1.0**, with batteries-included auth, queues, emails, and a clean tailwind/shadcn/ui-powered interface.
+My personal full-stack starter I put together after trying out a bunch of different stacks. It's got everything I need for most projects without being overly complicated.
 
-If you want to go from zero to “email-verified user in a dashboard” in minutes instead of days, this template is for you.
+## What's Inside
 
----
+- **⚡ TanStack Start** — File-based routing, server functions, and SSR that just work
+- **🔐 Better Auth** — Rock-solid authentication with email verification and social logins
+- **🗃️ Drizzle + PostgreSQL + TanStack DB** — Type-safe queries, effortless migrations, connection pooling
+- **📧 React Email + useSend** — Transactional emails that look professional and send reliably
+- **🎨 shadcn/ui** — Beautiful, accessible components that feel custom-built
+- **⚙️ pg-boss** — Background jobs using your existing Postgres database
+- **🛡️ Cloudflare Turnstile** — Bot protection that doesn't annoy real users
+- **🌓 Dark/Light Mode** — Seamless theme switching built-in
+- **🔧 Bun + Vite** — Development that's actually fast and enjoyable
 
-### What’s inside
+## CI/CD
 
-- **Runtime & tooling**: Bun, Vite, Nitro, TypeScript, React Compiler 1.0 (via Babel plugin)
-- **Routing & data**: TanStack Start, TanStack Router, TanStack Query, SSR query integration
-- **Database**: PostgreSQL + Drizzle ORM + Drizzle Kit
-- **Auth**: Better Auth (email + password, required email verification, admin plugin)
-- **Queues**: pg-boss + Postgres-backed background jobs
-- **Email**: Resend + React email templates
-- **UI & styling**: Tailwind CSS v4, shadcn/ui, Radix primitives, Lucide icons
-- **Forms & state**: TanStack React Form (with ergonomic hooks & field components)
-- **DX**: TanStack Devtools (Router + Query), Vitest, Testing Library, Biome + Ultracite
+[![CI](https://github.com/kegren/tano-stack/actions/workflows/ci.yml/badge.svg)](https://github.com/kegren/tano-stack/actions/workflows/ci.yml)
 
----
+Automated quality checks run on every commit:
+- **Linting** — Code style and logic checks with Ultracite
+- **Testing** — Unit tests with Vitest
+- **Build** — Production build verification
 
-### Quick start
+## Modern Features
 
-#### 1. Install dependencies
+- **🎨 Dark/Light Mode** — Theme switching with `next-themes` and CSS variables
+- **⚡ Optimistic Updates** — Instant UI feedback with TanStack DB's mutation features
+- **🏊 Connection Pooling** — Efficient PostgreSQL connection management with `postgres.js`
+- **📊 Type-Safe Everything** — TanStack Query provides additional type safety on top of Drizzle
+- **🔄 Background Processing** — Email sending and async tasks with `pg-boss`
+- **🛡️ Security First** — Rate limiting, CAPTCHA, CSRF protection, and secure sessions
+- **📱 Mobile-First UI** — Responsive design with Tailwind CSS and shadcn/ui
+- **🔑 Social Auth** — Email + Google/GitHub sign in with Better Auth
+- **🚀 Production Ready** — Built-in error boundaries, loading states, and performance optimizations
+
+## Quick Start
 
 ```bash
+# Get the code
+git clone https://github.com/kegren/tano-stack
+cd tano-stack
+
+# Install everything
 bun install
-```
 
-#### 2. Configure environment
+# Set up your environment
+cp .env.example .env
+# Add your database URL, auth secrets, and API keys
 
-Create a `.env` file in the project root and set:
-
-- **`DATABASE_URL`** – Postgres connection string  
-  Example: `postgres://user:password@localhost:5432/tano_stack`
-- **`RESEND_API_KEY`** – Resend API key for sending emails (create/sign in to your [Resend](https://resend.com) account and generate an API key, then paste it here)
-- **`BETTER_AUTH_URL`** – Base URL for Better Auth (e.g. `http://localhost:3000`)
-- **`BETTER_AUTH_SECRET`** – Secret used by Better Auth to sign and verify tokens/sessions
-
-These power Drizzle, Better Auth, pg-boss, and the Resend email worker.
-
-#### 3. Prepare the database
-
-Drizzle is configured in `drizzle.config.ts` and `src/db`:
-
-```bash
-# Push schema directly (great for local dev)
+# Push schema to database
 bun db:push
 
-# or, generate + run migrations
-bun db:generate
-bun db:migrate
-```
-
-You can inspect your DB with:
-
-```bash
-bun db:studio
-```
-
-#### 4. Generate the Better Auth secret
-
-Use the built-in script to generate a strong secret for Better Auth and copy it into your `.env`:
-
-```bash
-bun better-auth:secret
-```
-
-This will print a secret string – set it as `BETTER_AUTH_SECRET` in your `.env`.
-
-#### 5. Run the dev server
-
-```bash
+# Start building
 bun dev
 ```
 
-This runs the Vite dev server on `http://localhost:3000`.  
-All shadcn/ui components are installed in `src/components/ui`, but thanks to Vite’s tree-shaking, **only the components you import are actually bundled**.
+Visit [http://localhost:3000](http://localhost:3000) and you'll have a full-stack app running with auth, database, and email ready to go.
 
----
+## Deploy to Railway
 
-### Auth, email, and jobs (the fun stuff)
+This template is designed for Railway with two services: a web app and a background worker.
 
-- **Sign up** at `/auth/sign-up`  
-  Better Auth handles email + password and requires email verification.
-- On successful sign up, a **pg-boss job** is enqueued to send a verification email via Resend.
-- The worker in `src/lib/queue/jobs/auth/send-verification-email.worker.ts` sends a React email using the template in `src/components/emails/verify-email.tsx`.
-- Users land on `/auth/verify-email` while they check their inbox, and `/auth/email-verified` once they’re confirmed.
+### Prerequisites
+- [Railway account](https://railway.app)
+- PostgreSQL database (Railway provides this)
 
-Queue setup lives in:
+### 1. Database Setup
+Create a PostgreSQL database in Railway and copy the `DATABASE_URL`.
 
-- `src/lib/queue/index.ts` – initializes pg-boss and registers jobs
-- `src/lib/queue/jobs` – individual job definitions and workers
-
-The queue is initialized once in `src/server.ts` when the Nitro server starts.
-
----
-
-### Configuration constants
-
-Core app metadata and email settings are centralized in `src/lib/constants.ts`:
-
-- `SITE_NAME`, `SITE_URL`, and `SITE_DESCRIPTION` are used for things like document titles, metadata, and sharing.
-- `RESEND_FROM_EMAIL` controls the `"from"` address for transactional emails sent via Resend.
-
-Update these values to match your app’s branding and domain before going to production.
-
----
-
-### Routing, forms, and UI
-
-- **Routing**: File-based TanStack Router under `src/routes`, with the root layout in `src/routes/__root.tsx`.
-- **Router config**: `src/router.tsx` wires up the router, query client, and SSR query integration.
-- **Forms**: `src/hooks/form.ts` exposes a TanStack Form-powered `useAppForm` hook plus opinionated field components (`TextField`, `SelectField`, etc.).
-- **UI**: shadcn/ui components live in `src/components/ui` and are used across auth and app pages.
-
-To add another shadcn/ui component:
-
+### 2. Deploy Web Service
 ```bash
-bunx --bun shadcn@latest add button
+# Fork this repo and connect to Railway
+# Set these environment variables:
+DATABASE_URL=postgresql://...
+BETTER_AUTH_SECRET=your-secret-here
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+TURNSTILE_SITE_KEY=your-turnstile-site-key
+TURNSTILE_SECRET_KEY=your-turnstile-secret-key
+USE_SEND_API_KEY=your-usesend-api-key
+
+# Railway will auto-detect and deploy using:
+# Build command: bun run build
+# Start command: bun run start
 ```
 
-Replace `button` with the component name you want. The new component will be generated into `src/components/ui`, ready to import.
+### 3. Deploy Background Worker
+Create a second service in Railway with the same repo but different start command:
 
----
+```bash
+# In Railway service settings:
+# Build command: bun run build
+# Start command: bun run worker:start
+```
 
-### Scripts
+### Architecture
+- **Web Service**: Handles HTTP requests, auth, and UI
+- **Worker Service**: Processes background jobs (email sending, etc.)
+- **Database**: Shared PostgreSQL instance
 
-All commands are Bun-first:
+### Environment Variables
+Both services need the same `DATABASE_URL`. The web service needs all auth/API keys, while the worker only needs database access.
 
-- **`bun dev`** – Start the Vite dev server.
-- **`bun build`** – Build the app for production (client + server).
-- **`bun serve`** – Preview the production build.
-- **`bun start`** – Run the compiled Nitro server from `.output/server/index.mjs`.
-- **`bun test`** – Run tests with Vitest.
-- **`bun db:generate` / `bun db:migrate` / `bun db:push` / `bun db:pull` / `bun db:studio`** – Drizzle schema + tooling.
-- **`bun better-auth:generate`** – Generate Better Auth schema into `src/db/schema/auth.ts`.
+Railway's free tier works great for getting started!
 
----
+## Project Structure
 
-### Contributing
+```
+src/
+├── features/     # Feature modules (auth, todos, etc.)
+├── components/   # Shared UI components
+├── routes/       # File-based routing with TanStack Router
+├── lib/          # Utilities, auth config, email setup
+├── db/           # Database schema and migrations
+└── worker/       # Background job processing
+```
 
-Contributions are very welcome – whether it’s improving DX, adding features, or polishing the UI.
+## Commands
 
-1. **Fork** the repo and create a new branch.
-2. **Set up** your `.env` and Postgres database.
-3. **Run** `bun dev` and make your changes.
-4. **Add tests** where it makes sense (`bun test`).
-5. **Open a PR** with a clear description of what you changed and why.
+| Command | Description |
+|---------|-------------|
+| `bun dev` | Start dev server + background worker |
+| `bun dev:web` | Dev server only (port 3000) |
+| `bun dev:worker` | Background worker only |
+| `bun build` | Production build |
+| `bun serve` | Preview production build |
+| `bun start` | Start production server |
+| `bun worker:start` | Start background worker |
+| `bun test` | Run test suite |
+| `bun typecheck` | TypeScript type checking |
+| `bun lint` | Code linting |
+| `bun lint:fix` | Auto-fix linting issues |
+| `bun db:generate` | Generate Drizzle migrations |
+| `bun db:migrate` | Run pending migrations |
+| `bun db:push` | Push schema changes directly |
+| `bun db:pull` | Pull schema from database |
+| `bun db:studio` | Open Drizzle Studio GUI |
+| `better-auth:generate` | Update auth schema |
+| `better-auth:secret` | Generate new auth secret |
 
-If you spot something confusing, open an issue – if one person is confused, others probably are too.
+## Contributing
 
----
+Love that you're interested! This started as my personal toolkit, but I'm excited to see how others use and improve it. PRs welcome.
 
-### License
+## License
 
-This template is released under the **MIT License**, a simple and permissive open-source license.
-
-- You can use it in commercial and open-source projects.
-- You can modify, fork, and redistribute it.
-- You must keep the copyright and license notice.
-
-Add a `LICENSE` file at the project root with the standard MIT text and your name (or organization) and year to make this explicit.
+MIT © [kegren](https://github.com/kegren)
