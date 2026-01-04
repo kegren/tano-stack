@@ -14,14 +14,18 @@ import { prefetchTodos } from "@/features/todos/api/todo-queries";
 import TodoForm from "@/features/todos/components/todo-form";
 import TodoItem from "@/features/todos/components/todo-item";
 import Stats from "@/features/todos/components/todo-stats";
+import TodoSkeleton from "@/features/todos/components/todo-skeleton";
 
 export const Route = createFileRoute("/_authenticated/todos")({
   component: TodosPage,
   loader: async ({ context }) => {
     await prefetchTodos(context.queryClient, context.user.id);
   },
+  pendingComponent: TodoSkeleton,
   ssr: false,
 });
+
+
 
 function TodosPage() {
   const { user } = Route.useRouteContext();

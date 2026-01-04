@@ -38,24 +38,23 @@ export default function SocialAuthButtons() {
 
       <div className="flex flex-col gap-3">
         <Button
-          className="cursor-pointer"
           disabled={loadingProvider !== null}
           onClick={() => signIn("github")}
-          type="button"
-          variant="outline"
         >
           <Github className="mr-2 size-4" />
-          Continue with GitHub
+          {loadingProvider === "github"
+            ? "Signing in with GitHub..."
+            : "Continue with GitHub"}
         </Button>
+
         <Button
-          className="cursor-pointer"
           disabled={loadingProvider !== null}
           onClick={() => signIn("google")}
-          type="button"
-          variant="outline"
         >
           <Chrome className="mr-2 size-4" />
-          Continue with Google
+          {loadingProvider === "google"
+            ? "Signing in with Google..."
+            : "Continue with Google"}
         </Button>
       </div>
     </div>
