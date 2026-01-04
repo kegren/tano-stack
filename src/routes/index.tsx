@@ -24,7 +24,7 @@ function App() {
           </h1>
 
           <p className="mx-auto max-w-xl text-muted-foreground text-sm sm:text-base lg:text-lg">
-            Minimalist, batteries-included TanStack starter with TypeScript.
+            A full-stack starter I built after testing different approaches. Practical, type-safe, and not over-engineered.
           </p>
         </div>
 
@@ -36,6 +36,7 @@ function App() {
             <Badge variant="default">TanStack Router</Badge>
             <Badge variant="default">TanStack Query</Badge>
             <Badge variant="default">TanStack Form</Badge>
+            <Badge variant="default">TanStack DB</Badge>
 
             {/* Database */}
             <Badge variant="secondary">PostgreSQL</Badge>
@@ -44,6 +45,7 @@ function App() {
 
             {/* Auth */}
             <Badge variant="secondary">better-auth</Badge>
+            <Badge variant="secondary">Cloudflare Turnstile</Badge>
 
             {/* UI */}
             <Badge variant="outline">React 19</Badge>
@@ -62,6 +64,52 @@ function App() {
             <Badge variant="outline">TypeScript</Badge>
             <Badge variant="outline">Vite</Badge>
             <Badge variant="outline">Bun</Badge>
+          </div>
+        </div>
+
+        {/* Key Features */}
+        <div className="mx-auto max-w-5xl">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">🌓</div>
+              <h3 className="font-medium">Dark/Light Mode</h3>
+              <p className="text-muted-foreground text-sm">Seamless theme switching with next-themes</p>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">⚡</div>
+              <h3 className="font-medium">Optimistic Updates</h3>
+              <p className="text-muted-foreground text-sm">Instant UI feedback with TanStack DB</p>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">🔄</div>
+              <h3 className="font-medium">Background Jobs</h3>
+              <p className="text-muted-foreground text-sm">Email sending & async tasks with pg-boss</p>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">🏊</div>
+              <h3 className="font-medium">Connection Pooling</h3>
+              <p className="text-muted-foreground text-sm">Efficient PostgreSQL connection management</p>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">📊</div>
+              <h3 className="font-medium">Type-Safe Database</h3>
+              <p className="text-muted-foreground text-sm">Drizzle ORM + TanStack Query for full type safety</p>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">🔐</div>
+              <h3 className="font-medium">Secure by Default</h3>
+              <p className="text-muted-foreground text-sm">Rate limiting, CAPTCHA, and session security</p>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">✅</div>
+              <h3 className="font-medium">CI/CD Ready</h3>
+              <p className="text-muted-foreground text-sm">Automated testing, linting, and build checks</p>
+            </div>
+            <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
+              <div className="text-2xl">🔑</div>
+              <h3 className="font-medium">Social Auth</h3>
+              <p className="text-muted-foreground text-sm">Email + Google/GitHub sign in ready</p>
+            </div>
           </div>
         </div>
 
