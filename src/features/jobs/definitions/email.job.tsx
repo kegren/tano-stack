@@ -6,9 +6,11 @@ import { sendEmail } from "@/lib/email/send-email";
 export const SEND_VERIFICATION_EMAIL = "email.send-verification";
 
 export const SendVerificationEmailPayload = z.object({
-  userId: z.string(),
-  email: z.email(),
-  name: z.string(),
+  user: z.object({
+    id: z.string(),
+    email: z.email(),
+    name: z.string(),
+  }),
   verifyUrl: z.url(),
 });
 
@@ -29,24 +31,22 @@ export async function registerEmailJobs(boss: PgBoss) {
     async ([job]) => {
       const payload = SendVerificationEmailPayload.parse(job.data);
 
-      await sendEmail({
-        to: payload.email,
-        subject: "Verify your email",
-        template: (
-          <VerifyEmail name={payload.name} verifyUrl={payload.verifyUrl} />
-        ),
-      });
+      try {
+        await sendEmail({
+          to: payload.user.email,
+          subject: "Verify your email",
+          template: (
+            <VerifyEmail
+              name={payload.user.name}
+              verifyUrl={payload.verifyUrl}
+            />
+          ),
+        });
 
-      return { sent: true, timestamp: new Date().toISOString() };
+        return { sent: true, timestamp: new Date().toISOString() };
+      } catch (error) {
+        throw new Error((error as Error).message);
+      }
     }
   );
-}
-
-export async function enqueueSendVerificationEmail(
-  boss: PgBoss,
-  payload: SendVerificationEmailPayload
-) {
-  await boss.send(SEND_VERIFICATION_EMAIL, payload, {
-    priority: 1, // Higher priority for verification emails
-  });
 }

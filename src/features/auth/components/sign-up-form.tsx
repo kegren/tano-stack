@@ -38,14 +38,16 @@ export default function SignUpForm() {
       await authClient.signUp.email(
         {
           ...data,
+          callbackURL: "/auth/email-verified",
         },
         {
           headers: { "x-turnstile-token": turnstileToken },
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: authKeys.session() });
+            // manually remove query data to clear the cache and refetch
+            queryClient.removeQueries({ queryKey: authKeys.session() });
 
             resetTurnstile();
-            navigate({ to: "/dashboard" });
+            navigate({ to: "/auth/verify-email" });
 
             toast.success("Sign up successful");
           },

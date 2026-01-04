@@ -2,6 +2,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
 import { admin } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
+import { enqueueSendVerificationEmail } from "@/features/jobs/producers/email.producer";
 import { db } from "@/lib/server/db";
 import { env } from "@/lib/server/env";
 
@@ -29,7 +30,16 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: false,
+    requireEmailVerification: true,
+  },
+  emailVerification: {
+    sendOnSignIn: true,
+    sendVerificationEmail: ({ user, url }) => {
+      return enqueueSendVerificationEmail({
+        user,
+        verifyUrl: url,
+      });
+    },
   },
   rateLimit: {
     enabled: true,

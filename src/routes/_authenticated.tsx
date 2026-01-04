@@ -49,7 +49,7 @@ function RouteComponent() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: authKeys.session() });
+          queryClient.removeQueries({ queryKey: authKeys.session() });
           navigate({ to: "/" });
         },
       },

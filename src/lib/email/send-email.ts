@@ -14,12 +14,12 @@ export async function sendEmail({
   to,
   subject,
   template,
-  from,
+  from = env.USESEND_FROM_EMAIL,
 }: SendEmailOptions) {
   const html = await render(template);
 
   return useSend.emails.send({
-    from: from ?? env.EMAIL_FROM ?? "noreply@yourdomain.com",
+    from,
     to: Array.isArray(to) ? to : [to],
     subject,
     html,
