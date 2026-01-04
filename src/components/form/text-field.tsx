@@ -23,7 +23,19 @@ export default function TextField({
   icon?: React.ReactNode;
 }) {
   const field = useFieldContext<string>();
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+
+  // Collect errors from both the standard errors array and errorMap
+  const standardErrors = field.state.meta.errors;
+  const errorMapErrors = Object.values(field.state.meta.errorMap).filter(
+    (error): error is string => typeof error === "string"
+  );
+  const allErrors = [
+    ...standardErrors,
+    ...errorMapErrors.map((msg) => ({ message: msg })),
+  ];
+
+  const isInvalid = allErrors.length > 0;
+
   return (
     <Field data-invalid={isInvalid}>
       <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
@@ -39,7 +51,7 @@ export default function TextField({
           value={field.state.value as string}
         />
       </InputGroup>
-      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+      {isInvalid && <FieldError errors={allErrors} />}
       {description && <FieldDescription>{description}</FieldDescription>}
     </Field>
   );
