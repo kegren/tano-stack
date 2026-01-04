@@ -1,7 +1,7 @@
 import { defineNitroConfig } from "nitro/config";
 
 export default defineNitroConfig({
-  // Optimize for Bun since you are using it
+  // Optimize for Bun
   preset: "bun",
 
   // Enable compression for static assets (gzip/brotli)
