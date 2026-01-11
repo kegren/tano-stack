@@ -1,6 +1,6 @@
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useHydrated } from "@tanstack/react-router";
+import { useTheme } from "better-themes";
 import { Toggle } from "@/components/ui/toggle";
 
 type ThemeToggleProps = {
@@ -8,14 +8,10 @@ type ThemeToggleProps = {
 };
 
 export function ThemeToggle({ absolute = true }: ThemeToggleProps) {
+  const hydrated = useHydrated();
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (!hydrated) {
     return (
       <div className={absolute ? "absolute top-6 right-6" : ""}>
         <Toggle disabled size="sm" variant="outline">
