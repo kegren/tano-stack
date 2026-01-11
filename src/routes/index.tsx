@@ -73,7 +73,7 @@ function App() {
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">🌓</div>
               <h3 className="font-medium">Dark/Light Mode</h3>
-              <p className="text-muted-foreground text-sm">Seamless theme switching with next-themes</p>
+              <p className="text-muted-foreground text-sm">Seamless theme switching with better-themes</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">⚡</div>

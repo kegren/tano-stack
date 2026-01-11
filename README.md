@@ -25,7 +25,7 @@ Automated quality checks run on every commit:
 
 ## Modern Features
 
-- **🎨 Dark/Light Mode** — Theme switching with `next-themes` and CSS variables
+- **🎨 Dark/Light Mode** — Theme switching with `better-themes` and CSS variables
 - **⚡ Optimistic Updates** — Instant UI feedback with TanStack DB's mutation features
 - **🏊 Connection Pooling** — Efficient PostgreSQL connection management with `postgres.js`
 - **📊 Type-Safe Everything** — TanStack Query provides additional type safety on top of Drizzle
