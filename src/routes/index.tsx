@@ -19,12 +19,12 @@ function App() {
         {/* Hero Content */}
         <div className="space-y-4 sm:space-y-6">
           <h1 className="font-semibold text-3xl text-foreground sm:text-5xl lg:text-6xl">
-            Build modern web apps
-            <br className="hidden sm:block" /> faster with tano-stack
+            tano-stack
+            <br className="hidden sm:block" /> my go-to web app starter
           </h1>
 
           <p className="mx-auto max-w-xl text-muted-foreground text-sm sm:text-base lg:text-lg">
-            A full-stack starter I built after testing different approaches. Practical, type-safe, and not over-engineered.
+            Built so I can stop wiring auth, DB, and jobs from scratch every time I start a new idea.
           </p>
         </div>
 
@@ -73,42 +73,42 @@ function App() {
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">🌓</div>
               <h3 className="font-medium">Dark/Light Mode</h3>
-              <p className="text-muted-foreground text-sm">Seamless theme switching with better-themes</p>
+              <p className="text-muted-foreground text-sm">Theme toggle included, no extra setup rabbit hole</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">⚡</div>
-              <h3 className="font-medium">Optimistic Updates</h3>
-              <p className="text-muted-foreground text-sm">Instant UI feedback with TanStack DB</p>
+              <h3 className="font-medium">Fast UI by Default</h3>
+              <p className="text-muted-foreground text-sm">Optimistic updates so the app feels snappy</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">🔄</div>
               <h3 className="font-medium">Background Jobs</h3>
-              <p className="text-muted-foreground text-sm">Email sending & async tasks with pg-boss</p>
+              <p className="text-muted-foreground text-sm">Emails and async work handled by a worker process</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">🏊</div>
-              <h3 className="font-medium">Connection Pooling</h3>
-              <p className="text-muted-foreground text-sm">Efficient PostgreSQL connection management</p>
+              <h3 className="font-medium">Database Ready</h3>
+              <p className="text-muted-foreground text-sm">Postgres + pooling already wired up</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">📊</div>
               <h3 className="font-medium">Type-Safe Database</h3>
-              <p className="text-muted-foreground text-sm">Drizzle ORM + TanStack Query for full type safety</p>
+              <p className="text-muted-foreground text-sm">Drizzle and TanStack tools keep types honest</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">🔐</div>
-              <h3 className="font-medium">Secure by Default</h3>
-              <p className="text-muted-foreground text-sm">Rate limiting, CAPTCHA, and session security</p>
+              <h3 className="font-medium">Auth That Ships</h3>
+              <p className="text-muted-foreground text-sm">Email + social auth with the safety bits in place</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">✅</div>
-              <h3 className="font-medium">CI/CD Ready</h3>
-              <p className="text-muted-foreground text-sm">Automated testing, linting, and build checks</p>
+              <h3 className="font-medium">CI Included</h3>
+              <p className="text-muted-foreground text-sm">Lint, test, and build checks on pushes and PRs</p>
             </div>
             <div className="flex flex-col items-center space-y-2 rounded-lg border p-4 text-center">
               <div className="text-2xl">🔑</div>
               <h3 className="font-medium">Social Auth</h3>
-              <p className="text-muted-foreground text-sm">Email + Google/GitHub sign in ready</p>
+              <p className="text-muted-foreground text-sm">Google/GitHub sign-in ready when you need it</p>
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@ function App() {
             rel="noopener noreferrer"
             target="_blank"
           >
-            View on GitHub
+            Curious? Peek at the repo
           </a>
         </p>
       </div>
