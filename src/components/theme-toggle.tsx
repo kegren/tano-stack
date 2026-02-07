@@ -1,6 +1,6 @@
-import { Moon, Sun } from "lucide-react";
 import { useHydrated } from "@tanstack/react-router";
 import { useTheme } from "better-themes";
+import { Moon, Sun } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
 
 type ThemeToggleProps = {
