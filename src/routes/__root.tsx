@@ -9,7 +9,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import type { User } from "better-auth";
 import { DefaultCatchBoundary } from "@/components/default-catch-boundary";
 import { DefaultNotFound } from "@/components/default-not-found";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "better-themes";
 import { Toaster } from "@/components/ui/sonner";
 import TanStackQueryDevtools from "@/integrations/tanstack-query/devtools";
 import { env } from "@/lib/client/env";
