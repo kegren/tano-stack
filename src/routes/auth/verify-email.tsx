@@ -13,7 +13,7 @@ export const Route = createFileRoute("/auth/verify-email")({
   component: VerifyEmail,
 });
 
-export function VerifyEmail() {
+function VerifyEmail() {
   return (
     <div className="flex min-h-[60vh] items-center justify-center px-4">
       <Card className="w-full max-w-md text-center">

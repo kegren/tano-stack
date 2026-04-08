@@ -14,6 +14,8 @@ Not trying to be everything for everyone, just a solid setup that saves me from 
 - React Email + useSend
 - Bun + Vite
 
+The repo tracks current majors so you are not inheriting years-old defaults. As of the latest refresh, that includes **Vite 8**, **Better Auth 1.6**, **React 19**, **TanStack Router / Start 1.x**, **Tailwind CSS v4**, **Vitest 4**, and **TypeScript 6**—pin versions in `package.json` if you need something stricter.
+
 ## CI/CD
 
 [![CI](https://github.com/kegren/tano-stack/actions/workflows/ci.yml/badge.svg)](https://github.com/kegren/tano-stack/actions/workflows/ci.yml)
