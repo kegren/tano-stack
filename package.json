@@ -70,6 +70,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.10",
+    "@rolldown/plugin-babel": "^0.2.2",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/react-devtools": "^0.10.2",
     "@tanstack/react-query-devtools": "^5.96.2",
