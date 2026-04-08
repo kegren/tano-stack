@@ -1,4 +1,3 @@
-import { Chrome, Github } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -41,7 +40,6 @@ export default function SocialAuthButtons() {
           disabled={loadingProvider !== null}
           onClick={() => signIn("github")}
         >
-          <Github className="mr-2 size-4" />
           {loadingProvider === "github"
             ? "Signing in with GitHub..."
             : "Continue with GitHub"}
@@ -51,7 +49,6 @@ export default function SocialAuthButtons() {
           disabled={loadingProvider !== null}
           onClick={() => signIn("google")}
         >
-          <Chrome className="mr-2 size-4" />
           {loadingProvider === "google"
             ? "Signing in with Google..."
             : "Continue with Google"}
